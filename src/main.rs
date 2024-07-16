@@ -4,7 +4,7 @@
 mod crypto;
 mod themes;
 
-use std::{result, thread};
+use std::thread;
 use std::sync::mpsc::{self, Receiver, Sender};
 use std::time::{Duration, Instant};
 use std::sync::{Arc, Mutex};
