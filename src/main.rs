@@ -55,7 +55,6 @@ impl Default for EncryptType {
 #[derive(Default)]
 struct MyApp {
     dropped_files: Vec<egui::DroppedFile>,
-    picked_path: Option<String>,
     password: String,
     selected_option: EncryptType,
     file_path: String,
@@ -79,9 +78,9 @@ impl eframe::App for MyApp {
                     ui.label("File: ");
                     if ui.button("Buka File atau Drag kesini").clicked() {
                         if let Some(path) = rfd::FileDialog::new().pick_file() {
-                            self.picked_path = Some(path.display().to_string());        
+                            self.file_path = path.display().to_string();    
                         }
-                    } 
+                    }
                     if !self.dropped_files.is_empty() {
                         ui.group(|ui| {
                             ui.label("Dropped files:");
@@ -105,7 +104,7 @@ impl eframe::App for MyApp {
                                 if !additional_info.is_empty() {
                                     info += &format!(" ({})", additional_info.join(", "));
                                 }
-        
+                                self.file_path = info.clone();
                                 ui.label(info);
                             }
                         });
@@ -185,7 +184,7 @@ impl MyApp {
         *output_message = new_text.to_string();
     }
     fn encrypt(&mut self) {
-        println!("encrypt");
+        // println!("encrypt");
         self.is_processing = true;
         let file_path = self.file_path.clone();
         let password = self.password.clone();
