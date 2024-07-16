@@ -4,7 +4,7 @@
 mod crypto;
 mod themes;
 
-use std::thread;
+use std::{result, thread};
 use std::sync::mpsc::{self, Receiver, Sender};
 use std::time::{Duration, Instant};
 use std::sync::{Arc, Mutex};
@@ -71,8 +71,6 @@ impl eframe::App for MyApp {
     }
     
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // let mut ctx = egui::Context::default();
-       
         custom_window_frame(ctx, "ChaCha20-Poly1305", |ui| {
             ctx.set_pixels_per_point(2.0);
             ui.group(|ui| {
@@ -187,6 +185,7 @@ impl MyApp {
         *output_message = new_text.to_string();
     }
     fn encrypt(&mut self) {
+        println!("encrypt");
         self.is_processing = true;
         let file_path = self.file_path.clone();
         let password = self.password.clone();
@@ -204,7 +203,7 @@ impl MyApp {
 
             let start = Instant::now();
             let duration: Duration;
-
+            println!("{}", file_path);
             let result_message = match selected_option {
                 EncryptType::Encryption => 
                 match Crypto::encrypt(&file_path, &key_array, &nonce_array) {
@@ -223,7 +222,7 @@ impl MyApp {
                     Err(_e) => "Dekripsi gagal!".to_string(),
                 },
             };
-
+            println!("{}", result_message);
             tx.send(result_message).unwrap();
         });
     }

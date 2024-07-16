@@ -12,6 +12,7 @@ pub struct Crypto {
 
 impl Crypto {
     pub fn encrypt(path: &String, key: &[u8; 32], nonce: &[u8; 24]) -> Result<(), anyhow::Error> {
+        println!("{}", path);
         let cipher = XChaCha20Poly1305::new(key.into());
         let file_data = fs::read(path)?;
         let encrypted_file = cipher

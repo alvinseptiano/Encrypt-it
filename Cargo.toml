@@ -1,5 +1,5 @@
 [package]
-name = "encrypt_egui"
+name = "chacha20poly1305"
 version = "0.1.0"
 edition = "2021"
 
